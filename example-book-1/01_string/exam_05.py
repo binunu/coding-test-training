@@ -20,3 +20,5 @@ def solution(my_string, num1, num2):
     arr = list(my_string)
     arr[num1], arr[num2] = arr[num2], arr[num1]
     return ''.join(arr)
+
+# tip: 파이썬의 튜플 언패킹을 사용해 한 줄로 바꿀 수 있다.
