@@ -10,3 +10,37 @@
 # 공원의 가로 길이가 W, 세로 길이가 H라고 할 때, 공원의 좌측 상단의 좌표는 (0, 0), 우측 하단의 좌표는 (H - 1, W - 1) 입니다.
 
 # 공원을 나타내는 문자열 배열 park, 로봇 강아지가 수행할 명령이 담긴 문자열 배열 routes가 매개변수로 주어질 때, 로봇 강아지가 모든 명령을 수행 후 놓인 위치를 [세로 방향 좌표, 가로 방향 좌표] 순으로 배열에 담아 return 하도록 solution 함수를 완성해주세요.
+
+def solution(park, routes):
+    h = len(park)
+    w = len(park[0])
+    pos=[0,0]
+    obj = []
+    for i in range(h):
+        for j in range(w):
+            if park[i][j] == 'S':
+                pos = [i,j]    
+            if park[i][j] == 'X':
+                obj.append([i,j])
+    d = {'N':(-1,0), 'S': (1,0), 'W':(0,-1), 'E':(0,1)}
+    for route in routes:
+        c, n= route.split(" ")
+        x,y = d[c]
+        if 0 <= pos[0] + (x*int(n)) < h and 0<= pos[1] + (y*int(n)) < w:
+            go = True
+            i = 1
+            while i <= int(n):
+                nx = pos[0] + (x*i)
+                ny = pos[1] + (y*i)
+                if [nx,ny] in obj:
+                    go = False
+                    break     
+                i+=1
+            if go:
+                pos = [pos[0] + (x*int(n)),pos[1] + (y*int(n)) ]
+    return pos
+
+
+# 문제에나온대로 차근차근 풀면 됨
+# 좌표를 설정하는 과정에서 실수하지 않도록 주의를 기울여야 함
+# 이런 문제유형에서는 print()를 해보며 로그를 찍는게 도움이 많이 될 듯
