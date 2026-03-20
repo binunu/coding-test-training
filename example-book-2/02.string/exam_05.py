@@ -10,11 +10,13 @@
 
 def solution(s):
     answer = 1001
-    for num in range(1,len(s)):
+    if len(s)==1:
+        return 1
+    for num in range(1,(len(s)//2)+1):
         pre=[]
         cnt=0
         tmp=''
-        for i in range(0,num*(len(s)//num),num): 
+        for i in range(0,len(s),num): 
             if not pre:
                 pre = s[i:i+num]
                 continue
@@ -24,20 +26,18 @@ def solution(s):
                 tmp+= str(cnt+1)+pre if cnt > 0 else pre
                 pre = s[i:i+num]
                 cnt = 0
-            if num==4:
-                print(i, tmp)
-        
-        tmp+=s[i+num:]
-        if num==4:
-            print(i, tmp)
-        print(num,"만큼씩 잘랏을때::",tmp)
+        tmp+= str(cnt+1)+pre if cnt > 0 else pre
         answer = min(len(tmp),answer)
     return answer
-
-solution('baabaabbb')
 
 
 # 풀이과정
 # 단순히 완전탐색으로 생각해보면, 차례대로 1개부터 len(s)개로 잘라서 변환한 후 가장 짧은 길이를 반환하면 된다. 
-
-# 
+# 그러면 최대 1000개의 문자열에 대해서 1000번을 수행해야하는데, 
+# 잘 생각해보면 줄일 수 있는 최대 크기, 그러니까 n만큼 나눌 때 가장 큰 n은 len(s)//2 일 수 밖에 없는 것을 알 수 있다.
+# 예를들어 'abcde'를 (합칠수있는지여부는 일단 무시하고) 검사할 때, 중간값인 2이상의 수 3으로는 절대 중복을 이끌어낼 수 없기 때문이다.
+# 중복을 만들 수 있는 가장 단위는 절반과 절반이 동일한 요소일 때이고, 그 이상의 큰 수로는 중복을 판단할 수도 없음
+# 그래서 최대 len(s)//n번만 for문을 돌리면 됨!
+# 그리고 이런 문제를 풀 때 반드시 예외조건을 떠올려야 한다.
+# 극단적인 예외 , 예를들어 s의 길이가 1일 때, 
+# for문을 다 돌고 마지막 부분은 따로 저장해줘야 한다는 점 등을 주의해야 한다.
